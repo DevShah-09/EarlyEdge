@@ -54,8 +54,12 @@ async def auto_assign_asha_tasks() -> Dict:
             available_in_ward = [w for w in workers if w["ward"] == ward and w["active_tasks"] < w["max_capacity"]]
             
             if not available_in_ward:
-                unassigned_count += 1
-                continue
+                # Fallback: assign to ANY available worker regardless of ward if none in current ward
+                available_anywhere = [w for w in workers if w["active_tasks"] < w["max_capacity"]]
+                if not available_anywhere:
+                    unassigned_count += 1
+                    continue
+                available_in_ward = available_anywhere
             
             # Select the one with the fewest active tasks (load balancing)
             selected_worker = min(available_in_ward, key=lambda x: x["active_tasks"])
