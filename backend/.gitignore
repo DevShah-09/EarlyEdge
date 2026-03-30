@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# Environment variables — never commit
+.env
+.env.local
+.env.production
+
+# ML model artifacts (large binary files)
+ml/saved_models/*.pkl
+ml/saved_models/*.joblib
+
+# Uploaded data files (patient data is sensitive)
+uploads/
+data/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/

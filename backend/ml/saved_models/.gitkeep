@@ -1,0 +1,2 @@
+# Git-tracked placeholder — keeps the saved_models directory in version control.
+# The actual .pkl model files are excluded via .gitignore.
