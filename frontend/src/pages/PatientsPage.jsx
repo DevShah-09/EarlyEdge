@@ -2,144 +2,170 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const PatientsPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  
+  const [searchTerm, setSearchTerm] = useState('');
+
   const patients = [
-    { id: '1024', name: 'Aswathy Menon', age: 45, ward: 'Ward 04', risk: 'HIGH', score: 82, condition: 'Diabetes' },
-    { id: '1025', name: 'Rahul Pillai', age: 32, ward: 'Ward 12', risk: 'MEDIUM', score: 54, condition: 'Hypertension' },
-    { id: '1026', name: 'Sneha Nair', age: 58, ward: 'Ward 04', risk: 'HIGH', score: 78, condition: 'Diabetes' },
-    { id: '1027', name: 'Vimal Kumar', age: 41, ward: 'Ward 08', risk: 'LOW', score: 24, condition: 'None' },
-    { id: '1028', name: 'Deepa Raj', age: 37, ward: 'Ward 21', risk: 'MEDIUM', score: 48, condition: 'Anaemia' },
+    { id: 'PA-9021-X', name: 'Arjun Mehra', initials: 'AM', condition: 'Congestive Heart Failure', ward: 'Ward B', asha: 'Sunita Sharma', score: 88, risk: 'HIGH' },
+    { id: 'PA-8842-B', name: 'Rina Kumari', initials: 'RK', condition: 'Gestational Diabetes', ward: 'Ward C', asha: 'Priya Verma', score: 52, risk: 'MED' },
+    { id: 'PA-7731-S', name: 'Vikram Prasad', initials: 'VP', condition: 'Post-Op Recovery', ward: 'Ward A', asha: 'Anita Devi', score: 18, risk: 'LOW' },
+    { id: 'PA-1209-Z', name: 'Sanya Kapoor', initials: 'SK', condition: 'Severe Hypertension', ward: 'Ward B', asha: 'Sunita Sharma', score: 74, risk: 'HIGH' },
   ];
 
-  const handleRowClick = (id) => {
-    navigate(`/patients/${id}`);
+  const handleRegister = () => {
+    alert('Opening Patient Registration Form...');
+  };
+
+  const handleExport = () => {
+    alert('Exporting Patient Directory to CSV...');
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
+    <div className="space-y-8 animate-in fade-in duration-700 font-['Outfit'] pb-20 pr-4">
+      {/* Header Section */}
       <div className="flex justify-between items-end">
         <div className="space-y-1">
-          <h1 className="text-4xl font-black text-gray-800 tracking-tight">Patients Directory</h1>
-          <p className="text-gray-500 font-medium">Access and manage individual risk profiles and clinical records.</p>
+          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Patient Directory</h1>
+          <p className="text-sm font-medium text-slate-500 max-w-2xl">
+            Manage and monitor high-risk populations across assigned wards with real-time risk scoring and clinical oversight.
+          </p>
         </div>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-black text-xs tracking-widest shadow-xl shadow-blue-100 transition-all active:scale-95 flex items-center gap-2 uppercase">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" /></svg>
-          Add New Patient
-        </button>
+        <div className="flex gap-3">
+          <button 
+            onClick={handleExport}
+            className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition-all shadow-sm flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+            Export to CSV
+          </button>
+          <button 
+            onClick={handleRegister}
+            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+            Register Patient
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-8">
-        {/* Filters Sidebar */}
-        <div className="col-span-3 space-y-6">
-          <div className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm space-y-8">
-            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Quick Filters</h3>
-            
-            <div className="space-y-6">
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-gray-800 uppercase tracking-widest ml-1">Risk Tier</label>
-                <div className="grid grid-cols-1 gap-2">
-                  {['High Risk', 'Medium Risk', 'Stable'].map(tier => (
-                    <button key={tier} className="w-full text-left px-5 py-3 rounded-xl border border-gray-50 text-[10px] font-black text-gray-500 hover:border-blue-100 hover:bg-blue-50 transition-all">
-                      {tier}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-gray-800 uppercase tracking-widest ml-1">Ward Selection</label>
-                <select className="w-full bg-gray-50 border-none rounded-xl px-5 py-4 text-xs font-bold text-gray-600 appearance-none focus:ring-2 focus:ring-blue-100 transition-all">
-                  <option>All Wards</option>
-                  <option>Ward 04</option>
-                  <option>Ward 12</option>
-                </select>
-              </div>
-
-              <div className="pt-4">
-                <button className="w-full text-center text-[10px] font-black text-gray-300 uppercase tracking-widest hover:text-blue-600 transition-colors">Clear All Filters</button>
-              </div>
+      {/* Filters Section */}
+      <div className="grid grid-cols-4 gap-6">
+        {[
+          { label: 'Risk Tier', value: 'All Tiers' },
+          { label: 'Condition', value: 'All Conditions' },
+          { label: 'Ward Location', value: 'Global View' },
+          { label: 'ASHA Assigned', value: 'All Staff' },
+        ].map((filter, i) => (
+          <div key={i} className="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{filter.label}</p>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-bold text-slate-800">{filter.value}</span>
+              <svg className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
             </div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Patient Table Area */}
-        <div className="col-span-9 bg-white rounded-[48px] border border-gray-100 shadow-sm overflow-hidden p-10">
-          <div className="flex justify-between items-center mb-10">
-            <div className="relative w-80">
-              <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              </span>
-              <input
-                type="text"
-                placeholder="Search name or ID..."
-                className="w-full pl-12 pr-6 py-4 bg-gray-50 border-none rounded-2xl text-xs font-black placeholder-gray-300 focus:ring-2 focus:ring-blue-100 transition-all shadow-inner"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            
-            <div className="flex gap-3">
-              <button className="px-6 py-3 bg-gray-50 rounded-xl text-[10px] font-black text-gray-400 hover:bg-gray-100 transition-all uppercase tracking-widest">Export Dataset</button>
-              <button className="px-6 py-3 bg-blue-50 rounded-xl text-[10px] font-black text-blue-600 hover:bg-blue-100 transition-all flex items-center gap-2 uppercase tracking-widest">
-                <span>Sorted: Risk</span>
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" /></svg>
-              </button>
-            </div>
-          </div>
-
-          <table className="w-full text-left">
-            <thead>
-              <tr className="text-[9px] font-black text-gray-300 uppercase tracking-[0.3em] border-b border-gray-50">
-                <th className="pb-6 pl-4">Patient ID</th>
-                <th className="pb-6">Profile</th>
-                <th className="pb-6">Clinical Data</th>
-                <th className="pb-6">Risk Trajectory</th>
-                <th className="pb-6 text-right pr-4">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {patients.map((p) => (
-                <tr 
-                  key={p.id} 
-                  onClick={() => handleRowClick(p.id)}
-                  className="group hover:bg-blue-50/20 transition-all cursor-pointer"
-                >
-                  <td className="py-7 pl-4 text-[10px] font-black text-gray-300 tracking-widest">#{p.id}</td>
-                  <td className="py-7">
-                    <div className="font-black text-gray-800 text-sm tracking-tight">{p.name}</div>
-                    <div className="text-[10px] font-bold text-gray-400 mt-0.5">{p.age}y / {p.gender || 'Female'}</div>
-                  </td>
-                  <td className="py-7">
-                    <div className="text-[10px] font-black text-gray-600 uppercase tracking-widest">{p.condition}</div>
-                    <div className="text-[10px] font-bold text-blue-400 mt-0.5 uppercase tracking-tighter">{p.ward}</div>
-                  </td>
-                  <td className="py-7">
-                    <div className="flex items-center gap-4">
-                      <div className="w-24 h-1.5 bg-gray-50 rounded-full overflow-hidden shadow-inner">
-                        <div 
-                          className={`h-full transition-all duration-1000 ${p.risk === 'HIGH' ? 'bg-red-500' : p.risk === 'MEDIUM' ? 'bg-orange-400' : 'bg-emerald-500'}`} 
-                          style={{ width: `${p.score}%` }}
-                        ></div>
+      {/* Table Section */}
+      <div className="bg-white rounded-[40px] border border-slate-100 shadow-sm overflow-hidden p-8">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">
+              <th className="pb-6">Patient Name & ID</th>
+              <th className="pb-6">Condition</th>
+              <th className="pb-6">Ward</th>
+              <th className="pb-6">ASHA Worker</th>
+              <th className="pb-6">Risk Score &darr;</th>
+              <th className="pb-6 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-50 font-['Outfit']">
+            {patients.map((p, i) => (
+              <tr 
+                key={i} 
+                onClick={() => navigate(`/patients/${p.id}`)}
+                className="group hover:bg-slate-50/50 transition-all cursor-pointer"
+              >
+                <td className="py-6">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-[10px] font-black shadow-inner transition-transform group-hover:scale-105 ${
+                      p.risk === 'HIGH' ? 'bg-red-50 text-red-600' : 
+                      p.risk === 'MED' ? 'bg-amber-50 text-amber-600' : 'bg-teal-50 text-teal-600'
+                    }`}>
+                      {p.initials}
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-800 text-sm">{p.name}</div>
+                      <div className="text-[10px] font-bold text-slate-400 tracking-wide uppercase">ID: {p.id}</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="py-6 text-sm font-semibold text-slate-600 max-w-[200px] leading-snug">
+                  {p.condition}
+                </td>
+                <td className="py-6">
+                   <div className="bg-slate-100 px-3 py-1.5 rounded-lg text-center inline-block">
+                      <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Ward</p>
+                      <p className="text-xs font-black text-slate-700 leading-none">{p.ward.split(' ')[1]}</p>
+                   </div>
+                </td>
+                <td className="py-6">
+                   <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-blue-300"></div>
+                      <span className="text-sm font-bold text-slate-600">{p.asha}</span>
+                   </div>
+                </td>
+                <td className="py-6">
+                   <div className="flex items-center gap-4">
+                      <div className="w-20 h-1.5 bg-slate-50 rounded-full overflow-hidden shadow-inner flex-shrink-0">
+                         <div 
+                           className={`h-full rounded-full ${
+                             p.risk === 'HIGH' ? 'bg-red-600' : 
+                             p.risk === 'MED' ? 'bg-amber-700' : 'bg-teal-400'
+                           }`} 
+                           style={{ width: `${p.score}%` }}
+                         ></div>
                       </div>
-                      <span className={`text-[10px] font-black ${p.risk === 'HIGH' ? 'text-red-500' : p.risk === 'MEDIUM' ? 'text-orange-500' : 'text-emerald-500'}`}>
-                        {p.score}%
+                      <span className={`px-3 py-0.5 rounded-full text-[10px] font-black tracking-widest uppercase ${
+                        p.risk === 'HIGH' ? 'bg-red-50 text-red-600' : 
+                        p.risk === 'MED' ? 'bg-amber-50 text-amber-700' : 'bg-teal-50 text-teal-600'
+                      }`}>
+                         {p.score} - {p.risk}
                       </span>
-                    </div>
-                  </td>
-                  <td className="py-7 text-right pr-4">
-                    <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
-                      <button className="bg-white shadow-xl border border-gray-100 p-3 rounded-xl text-blue-600 hover:bg-blue-600 hover:text-white transition-all">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                   </div>
+                </td>
+                <td className="py-6 text-right">
+                   <button className="p-2 text-slate-300 group-hover:text-slate-600 transition-colors">
+                      <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" /></svg>
+                   </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Pagination Footer */}
+        <div className="mt-10 flex justify-between items-center py-4 border-t border-slate-50">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Showing 1-10 of 248 patients</p>
+          <div className="flex items-center gap-2">
+            <button className="p-2 text-slate-300 hover:text-slate-600 transition-colors"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg></button>
+            <button className="w-8 h-8 rounded-lg bg-blue-600 text-white text-[10px] font-black">1</button>
+            {[2, 3, '...', 25].map((n, i) => (
+              <button key={i} className="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-400 text-[10px] font-black transition-colors">{n}</button>
+            ))}
+            <button className="p-2 text-slate-300 hover:text-slate-600 transition-colors"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" /></svg></button>
+          </div>
         </div>
+      </div>
+
+      {/* Floating Emergency Alert Button (match image) */}
+      <div className="fixed bottom-10 right-10 z-50">
+         <button className="flex items-center gap-3 bg-white px-6 py-4 rounded-[28px] shadow-2xl border border-slate-100 hover:-translate-y-1 transition-all active:scale-95 group">
+            <div className="bg-blue-600 p-2 rounded-xl text-white group-hover:animate-pulse">
+               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2zM12 11v4m0 0l-2-2m2 2l2-2" /></svg>
+            </div>
+            <span className="text-sm font-black text-slate-800 tracking-tight uppercase">Emergency Alert</span>
+         </button>
       </div>
     </div>
   );

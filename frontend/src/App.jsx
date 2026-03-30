@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext'
 import { AppProvider } from './context/AppContext'
 import Layout from './components/layout/Layout'
 import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUp'
 import UploadPage from './pages/UploadPage'
 import DashboardPage from './pages/DashboardPage'
 import PatientsPage from './pages/PatientsPage'
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             {/* Public routes */}
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
 
             {/* Protected routes wrapped in Layout */}
             <Route element={<ProtectedRoute />}>
