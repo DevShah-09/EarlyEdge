@@ -158,6 +158,7 @@ async def upload_dataset(file: UploadFile = File(...)):
                     "xai_summary": xai_summary,
                     "top_factor_label": top_factor,
                     "shap_factors": shap_factors,
+                    "email": str(df.iloc[idx].get("email", "")) if "email" in df.columns else None,
                     "upload_batch_id": batch_id,
                     "updated_at": datetime.now(timezone.utc).isoformat()
                 }

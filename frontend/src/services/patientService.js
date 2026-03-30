@@ -33,3 +33,9 @@ export const assignAsha = async (patientId, ashaWorkerId) => {
   })
   return data
 }
+
+/** Approve an AI-generated care plan and send it to the patient via email */
+export const approveActionPlan = async (patientId) => {
+  const { data } = await api.post(`/patients/${patientId}/approve-plan`)
+  return data
+}

@@ -3,6 +3,7 @@ from typing import Optional, List
 import pandas as pd
 
 from backend.database import get_supabase
+from backend.services.email_service import send_care_plan_email
 from backend.schemas.patient import (
     PatientDetailResponse,
     PatientWithRisk,
@@ -97,6 +98,7 @@ def _row_to_patient_with_risk(row: dict) -> PatientWithRisk:
         ward=row.get("ward"),
         last_visit_date=row.get("last_visit_date"),
         asha_worker_id=row.get("asha_worker_id"),
+        email=row.get("email"),
         risk_score=risk_score,
         upload_batch_id=row.get("upload_batch_id"),
     )
@@ -258,3 +260,54 @@ async def assign_asha_to_patient(patient_id: str, body: dict):
         print(f"Warning: Failed to increment ASHA task count: {e}")
 
     return {"status": "success", "message": f"Assigned worker {worker_id} to patient {patient_id}"}
+
+
+@router.post("/{patient_id}/approve-plan")
+async def approve_and_send_plan(patient_id: str):
+    """
+    Marks the latest AI care plan for this patient as approved and
+    dispatches it to their clinical email.
+    """
+    supabase = get_supabase()
+
+    # 1. Fetch the latest action plan
+    plan_res = supabase.table("action_plans") \
+        .select("*") \
+        .eq("patient_id", patient_id) \
+        .order("generated_at", desc=True) \
+        .limit(1).execute()
+
+    if not plan_res.data:
+        raise HTTPException(status_code=404, detail="No action plan generated for this patient.")
+
+    plan = plan_res.data[0]
+    
+    # 2. Fetch patient email
+    patient_res = supabase.table("patients") \
+        .select("name, email") \
+        .eq("patient_id", patient_id).execute()
+        
+    if not patient_res.data:
+        raise HTTPException(status_code=404, detail="Patient profile missing.")
+
+    patient_name = patient_res.data[0]["name"]
+    patient_email = patient_res.data[0]["email"]
+
+    # 3. Update plan status in DB
+    supabase.table("action_plans").update({
+        "is_approved": True,
+        "approved_at": datetime.now(timezone.utc).isoformat()
+    }).eq("plan_id", plan["plan_id"]).execute()
+
+    # 4. Trigger Email Dispatch
+    # We pass the 'plan_steps' from the JSON structure
+    plan_json = plan.get("plan_json", {})
+    plan_steps = plan_json.get("plan_steps", [])
+    
+    sent = send_care_plan_email(patient_name, patient_email, plan_steps)
+
+    return {
+        "status": "success" if sent else "error",
+        "message": f"Care plan approved and sent to {patient_email}" if sent else f"Approved but email failed to send to {patient_email}.",
+        "approved_at": datetime.now(timezone.utc).isoformat()
+    }

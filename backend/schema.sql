@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS patients (
     shap_factors        JSONB,
 
     -- Metadata
+    email               TEXT,
     upload_batch_id     UUID REFERENCES upload_batches(batch_id),
     created_at          TIMESTAMPTZ DEFAULT NOW(),
     updated_at          TIMESTAMPTZ DEFAULT NOW()
@@ -95,6 +96,8 @@ CREATE TABLE IF NOT EXISTS action_plans (
     plan_id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     patient_id      TEXT REFERENCES patients(patient_id) ON DELETE CASCADE,
     plan_json       JSONB NOT NULL,            -- Full ActionPlanResponse JSON
+    is_approved     BOOLEAN DEFAULT FALSE,     -- Doctor verification status
+    approved_at     TIMESTAMPTZ,
     generated_at    TIMESTAMPTZ DEFAULT NOW(),
     expires_at      TIMESTAMPTZ DEFAULT NOW() + INTERVAL '7 days'
 );

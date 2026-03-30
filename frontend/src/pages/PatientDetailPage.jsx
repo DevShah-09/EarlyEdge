@@ -14,7 +14,7 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import { getPatientById } from '../services/patientService';
+import { getPatientById, approveActionPlan } from '../services/patientService';
 
 ChartJS.register(
   CategoryScale,
@@ -45,6 +45,8 @@ const PatientDetailPage = () => {
     // AI Plan states
     const [generatingPlan, setGeneratingPlan] = useState(false);
     const [actionPlan, setActionPlan] = useState(null);
+    const [approving, setApproving] = useState(false);
+    const [approvalStatus, setApprovalStatus] = useState(null); // 'success' | 'error' | null
 
     useEffect(() => {
         const loadPatient = async () => {
@@ -65,6 +67,26 @@ const PatientDetailPage = () => {
         };
         loadPatient();
     }, [id]);
+
+    const handleApprovePlan = async () => {
+        if (!id || approving) return;
+        try {
+            setApproving(true);
+            const result = await approveActionPlan(id);
+            if (result.status === 'success') {
+                setApprovalStatus('success');
+                // Optional: Update actionPlan state to reflect approval
+                setActionPlan(prev => ({ ...prev, is_approved: true }));
+            } else {
+                setApprovalStatus('error');
+            }
+        } catch (err) {
+            console.error("Approval failed:", err);
+            setApprovalStatus('error');
+        } finally {
+            setApproving(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -105,17 +127,17 @@ const PatientDetailPage = () => {
             hba1c: p.hba1c,
             cholesterol: p.cholesterol_total
         },
-        riskTier: p.risk_tier || 'Low',
-        overallRisk: p.overall_risk || 0,
+        riskTier: p.risk_score?.risk_tier || 'Low',
+        overallRisk: p.risk_score?.overall_risk || 0,
         metrics: {
-            diabetes: p.diabetes_risk || 0,
-            hypertension: p.hypertension_risk || 0,
-            cvd: p.cvd_risk || 0
+            diabetes: p.risk_score?.diabetes_risk || 0,
+            hypertension: p.risk_score?.hypertension_risk || 0,
+            cvd: p.risk_score?.cvd_risk || 0
         },
         trajectoryLabel: patient.trajectory_label || 'Stable',
         history: patient.trajectory_history || [],
-        xaiSummary: p.xai_summary || "Risk profile based on clinical parameters.",
-        shapFactors: p.shap_factors || []
+        xaiSummary: p.risk_score?.xai_summary || "Risk profile based on clinical parameters.",
+        shapFactors: p.risk_score?.top_factors || []
     };
 
     const xaiData = {
@@ -180,7 +202,7 @@ const PatientDetailPage = () => {
                         </div>
                         <div className="flex items-center gap-6 text-slate-400 font-bold text-xs uppercase tracking-widest">
                              <span>Age: {currentPatient.age}y</span>
-                             <span>ID: {currentPatient.id.slice(0, 8)}</span>
+                             <span>ID: {currentPatient.id}</span>
                              <span>Ward: {currentPatient.ward}</span>
                         </div>
                     </div>
@@ -245,6 +267,44 @@ const PatientDetailPage = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+
+                    {/* Doctor Approval Footer */}
+                    <div className="mt-8 pt-8 border-t border-blue-100 flex justify-between items-center bg-white/50 -mx-8 -mb-8 p-8 rounded-b-[40px]">
+                        <div className="flex items-center gap-4">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${approvalStatus === 'success' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}`}>
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            </div>
+                            <div>
+                                <p className="text-xs font-black text-slate-800 uppercase tracking-widest">Doctor Verification</p>
+                                <p className="text-[10px] font-bold text-slate-400">Review content before dispatching to {currentPatient.name}</p>
+                            </div>
+                        </div>
+
+                        {approvalStatus === 'success' ? (
+                            <div className="flex items-center gap-3 bg-emerald-50 text-emerald-700 px-6 py-3 rounded-2xl border border-emerald-100 animate-in slide-in-from-right-4">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                                <span className="text-xs font-black uppercase tracking-widest">Approved & Dispatched</span>
+                            </div>
+                        ) : (
+                            <button 
+                                onClick={handleApprovePlan}
+                                disabled={approving}
+                                className="px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-blue-100 disabled:opacity-50 flex items-center gap-3"
+                            >
+                                {approving ? (
+                                    <>
+                                        <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                                        <span>Dispatching...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                                        <span>Approve & Email Patient</span>
+                                    </>
+                                )}
+                            </button>
+                        )}
                     </div>
                 </div>
             )}

@@ -1,0 +1,51 @@
+name,age,gender,systolic_bp,diastolic_bp,blood_glucose_fasting,bmi,cholesterol_total,hba1c,smoking_status,ward,last_visit_date,email
+Sunita Mishra,54,Female,165,95,128,28.4,210,7.2,0,Ward 04,2023-10-12,sunita.mishra@example.com
+Rajesh Kumar,62,Male,138,88,145,31.2,195,8.1,1,Ward 21,2023-09-28,rishitrial1234@gmail.com
+Ananya Patil,29,Female,115,75,92,22.5,160,5.4,0,Ward 09,2023-11-05,ananya.patil@example.com
+Gita Patil,48,Female,154,92,112,29.8,205,6.8,0,Ward 04,2023-10-24,gita.patil@example.com
+Suresh Patil,59,Male,142,90,135,27.5,185,7.5,1,Ward 08,2023-10-15,suresh.patil@example.com
+Meena Rao,51,Female,130,85,105,26.2,175,6.2,0,Ward 12,2023-11-02,meena.rao@example.com
+Amit Singh,45,Male,148,94,118,30.5,215,7.8,1,Ward 08,2023-10-30,amit.singh@example.com
+Lata Hegde,67,Female,172,98,152,32.4,230,8.5,0,Ward 04,2023-09-15,lata.hegde@example.com
+Vijay Mallya,55,Male,135,85,122,25.8,190,6.9,0,Ward 15,2023-10-20,vijay.mallya@example.com
+Savitri Devi,42,Female,128,82,98,24.5,168,5.8,0,Ward 02,2023-11-10,savitri.devi@example.com
+Mohammad Rafi,70,Male,158,92,160,28.9,202,8.9,1,Ward 21,2023-10-05,mohammad.rafi@example.com
+Kavita Krishnan,35,Female,118,78,88,21.4,155,5.1,0,Ward 12,2023-10-18,kavita.krishnan@example.com
+Rahul Dravid,48,Male,125,80,102,24.2,172,5.9,0,Ward 01,2023-11-12,rahul.dravid@example.com
+Priyanka Chopra,38,Female,112,72,85,19.8,150,4.9,0,Ward 07,2023-11-15,priyanka.chopra@example.com
+Nitin Gadkari,65,Male,160,105,140,33.2,245,8.2,1,Ward 04,2023-09-30,nitin.gadkari@example.com
+Amir Khan,56,Male,132,84,115,26.5,188,6.5,0,Ward 10,2023-11-12,amir.khan@example.com
+Shahrukh Khan,58,Male,145,92,138,27.8,210,7.8,1,Ward 05,2023-10-25,shahrukh.khan@example.com
+Salman Khan,57,Male,138,88,125,29.2,205,7.2,0,Ward 03,2023-09-20,salman.khan@example.com
+Deepika Padukone,37,Female,116,76,90,21.5,162,5.2,0,Ward 08,2023-11-08,deepika.padukone@example.com
+Ranbir Kapoor,41,Male,128,82,105,24.8,178,6.1,1,Ward 12,2023-10-15,ranbir.kapoor@example.com
+Alia Bhatt,31,Female,112,74,88,20.2,158,5.3,0,Ward 04,2023-11-20,alia.bhatt@example.com
+Akshay Kumar,56,Male,122,78,95,23.5,165,5.5,0,Ward 15,2023-10-10,akshay.kumar@example.com
+Vidya Balan,45,Female,142,90,122,30.2,215,7.5,0,Ward 02,2023-09-30,vidya.balan@example.com
+Hrithik Roshan,50,Male,130,85,110,25.4,185,6.4,0,Ward 11,2023-11-05,hrithik.roshan@example.com
+Kareena Kapoor,43,Female,124,80,102,23.8,175,5.9,0,Ward 07,2023-10-22,kareena.kapoor@example.com
+Ranveer Singh,38,Male,118,76,92,22.4,162,5.2,1,Ward 09,2023-11-15,ranveer.singh@example.com
+Anushka Sharma,35,Female,115,75,88,21.2,155,5.1,0,Ward 06,2023-10-28,anushka.sharma@example.com
+Varun Dhawan,36,Male,120,78,98,24.1,170,5.7,0,Ward 14,2023-11-02,varun.dhawan@example.com
+Shraddha Kapoor,36,Female,110,72,85,20.5,152,5.0,0,Ward 04,2023-10-18,shraddha.kapoor@example.com
+Ayushmann Khurrana,39,Male,118,76,105,23.2,172,6.2,0,Ward 01,2023-11-10,ayushmann.khurrana@example.com
+Rajkummar Rao,39,Male,116,74,102,22.8,168,5.8,0,Ward 10,2023-10-25,rajkummar.rao@example.com
+Vicky Kaushal,35,Male,114,72,95,23.5,160,5.5,1,Ward 03,2023-11-12,vicky.kaushal@example.com
+Katrina Kaif,40,Female,112,74,90,21.8,158,5.4,0,Ward 05,2023-10-15,katrina.kaif@example.com
+Kartik Aaryan,33,Male,115,75,98,22.1,165,5.6,0,Ward 13,2023-11-08,kartik.aaryan@example.com
+Sara Ali Khan,28,Female,108,70,82,19.5,148,4.8,0,Ward 02,2023-10-20,sara.ali.khan@example.com
+Janhvi Kapoor,27,Female,110,72,85,20.2,152,5.0,0,Ward 08,2023-11-18,janhvi.kapoor@example.com
+Tiger Shroff,34,Male,112,74,92,22.5,158,5.2,0,Ward 11,2023-10-30,tiger.shroff@example.com
+Kriti Sanon,33,Female,114,74,88,21.2,160,5.3,0,Ward 06,2023-11-05,kriti.sanon@example.com
+Kiara Advani,31,Female,110,72,85,20.8,155,5.1,0,Ward 09,2023-10-12,kiara.advani@example.com
+Sidharth Malhotra,39,Male,118,76,100,24.2,175,5.8,0,Ward 15,2023-11-15,sidharth.malhotra@example.com
+Taapsee Pannu,36,Female,116,76,92,22.5,168,5.4,0,Ward 14,2023-10-05,taapsee.pannu@example.com
+Bhumi Pednekar,34,Female,118,78,95,24.8,172,5.7,0,Ward 07,2023-11-20,bhumi.pednekar@example.com
+Sanya Malhotra,32,Female,112,74,88,21.5,160,5.3,0,Ward 12,2023-10-25,sanya.malhotra@example.com
+Ishaan Khatter,28,Male,110,72,85,21.2,155,5.1,1,Ward 04,2023-11-08,ishaan.khatter@example.com
+Aditya Roy Kapur,38,Male,114,76,92,23.8,165,5.5,0,Ward 10,2023-10-18,aditya.roy.kapur@example.com
+Rakul Preet Singh,33,Female,110,72,85,20.5,152,5.0,0,Ward 02,2023-11-12,rakul.preet@example.com
+Parineeti Chopra,35,Female,115,75,98,23.2,168,5.6,0,Ward 05,2023-10-30,parineeti.chopra@example.com
+Arjun Kapoor,38,Male,128,82,115,28.5,195,6.8,1,Ward 13,2023-11-05,arjun.kapoor@example.com
+Sonakshi Sinha,36,Female,122,80,105,27.2,185,6.2,0,Ward 07,2023-10-15,sonakshi.sinha@example.com
+John Abraham,51,Male,120,78,92,25.5,178,5.4,0,Ward 11,2023-11-18,john.abraham@example.com

@@ -54,6 +54,7 @@ class PatientBase(BaseModel):
     ward: Optional[str] = None
     last_visit_date: Optional[date] = None
     asha_worker_id: Optional[str] = None
+    email: Optional[str] = None
 
 
 class PatientWithRisk(PatientBase):

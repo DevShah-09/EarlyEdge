@@ -35,6 +35,7 @@ const DashboardPage = () => {
     const [loading, setLoading] = useState(true);
     const [dashboardData, setDashboardData] = useState(null);
     const [priorityPatients, setPriorityPatients] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const loadDashboard = async () => {
@@ -47,14 +48,28 @@ const DashboardPage = () => {
                 setDashboardData(dash);
                 const pList = Array.isArray(patientsData) ? patientsData : (patientsData.patients || []);
                 setPriorityPatients(pList.slice(0, 5));
+                setError(null);
             } catch (err) {
                 console.error("Dashboard load failed:", err);
+                setError("Could not retrieve dashboard metrics. Please check network connection.");
             } finally {
                 setLoading(false);
             }
         };
         loadDashboard();
     }, []);
+
+    if (error) {
+        return (
+            <div className="text-center pt-32 pb-64 text-red-500 font-bold">
+                {error}
+                <br/>
+                <button onClick={() => window.location.reload()} className="mt-4 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-6 py-3 rounded-xl transition-all">
+                    Retry Dashboard
+                </button>
+            </div>
+        );
+    }
 
     if (loading || !dashboardData) {
         return (

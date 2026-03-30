@@ -129,9 +129,9 @@ def _calculate_monthly_trend(df: pd.DataFrame):
             for _, row in monthly_avg.iterrows():
                 trend.append({
                     "month": row["month_year"],
-                    "diabetes": round(float(row["diabetes_risk"]), 1),
-                    "hypertension": round(float(row["hypertension_risk"]), 1),
-                    "cvd": round(float(row["cvd_risk"]), 1)
+                    "diabetes": int(row["diabetes_risk"]),
+                    "hypertension": int(row["hypertension_risk"]),
+                    "cvd": int(row["cvd_risk"])
                 })
             # Ensure it is sorted chronologically if possible, or at least return what we have
             return trend
@@ -155,8 +155,25 @@ def _calculate_monthly_trend(df: pd.DataFrame):
 
 def _empty_dashboard_response():
     return {
-        "kpis": {"total_patients": 0, "high_risk_count": 0, "pending_tasks": 0, "upcoming_camps": 0},
-        "risk_distribution": {"high": 0, "medium": 0, "low": 0, "high_pct": 0, "medium_pct": 0, "low_pct": 0},
+        "kpis": {
+            "total_patients": 0, 
+            "high_risk_count": 0, 
+            "high_risk_percent": 0.0,
+            "medium_risk_count": 0,
+            "low_risk_count": 0,
+            "pending_asha_tasks": 0, 
+            "upcoming_camps": 0,
+            "new_this_week": 0
+        },
+        "risk_distribution": {
+            "high": 0, "medium": 0, "low": 0, 
+            "high_pct": 0.0, "medium_pct": 0.0, "low_pct": 0.0
+        },
+        "condition_breakdown": [
+            {"condition": "Diabetes", "high_risk": 0, "medium_risk": 0, "low_risk": 0},
+            {"condition": "Hypertension", "high_risk": 0, "medium_risk": 0, "low_risk": 0},
+            {"condition": "CVD", "high_risk": 0, "medium_risk": 0, "low_risk": 0}
+        ],
         "monthly_trend": [],
         "ward_summary": []
     }

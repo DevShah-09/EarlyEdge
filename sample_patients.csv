@@ -1,16 +1,16 @@
-name,age,gender,systolic_bp,diastolic_bp,blood_glucose_fasting,bmi,cholesterol_total,hba1c,smoking_status,ward,last_visit_date
-Sunita Mishra,54,Female,165,95,128,28.4,210,7.2,0,Ward 04,2023-10-12
-Rajesh Kumar,62,Male,138,88,145,31.2,195,8.1,1,Ward 21,2023-09-28
-Ananya Patil,29,Female,115,75,92,22.5,160,5.4,0,Ward 09,2023-11-05
-Gita Patil,48,Female,154,92,112,29.8,205,6.8,0,Ward 04,2023-10-24
-Suresh Patil,59,Male,142,90,135,27.5,185,7.5,1,Ward 08,2023-10-15
-Meena Rao,51,Female,130,85,105,26.2,175,6.2,0,Ward 12,2023-11-02
-Amit Singh,45,Male,148,94,118,30.5,215,7.8,1,Ward 08,2023-10-30
-Lata Hegde,67,Female,172,98,152,32.4,230,8.5,0,Ward 04,2023-09-15
-Vijay Mallya,55,Male,135,85,122,25.8,190,6.9,0,Ward 15,2023-10-20
-Savitri Devi,42,Female,128,82,98,24.5,168,5.8,0,Ward 02,2023-11-10
-Mohammad Rafi,70,Male,158,92,160,28.9,202,8.9,1,Ward 21,2023-10-05
-Kavita Krishnan,35,Female,118,78,88,21.4,155,5.1,0,Ward 12,2023-10-18
-Rahul Dravid,48,Male,125,80,102,24.2,172,5.9,0,Ward 01,2023-11-12
-Priyanka Chopra,38,Female,112,72,85,19.8,150,4.9,0,Ward 07,2023-11-15
-Nitin Gadkari,65,Male,160,105,140,33.2,245,8.2,1,Ward 04,2023-09-30
+name,age,gender,systolic_bp,diastolic_bp,blood_glucose_fasting,bmi,cholesterol_total,hba1c,smoking_status,ward,last_visit_date,email
+Sunita Mishra,54,Female,165,95,128,28.4,210,7.2,0,Ward 04,2023-10-12,sunita.mishra@example.com
+Rajesh Kumar,62,Male,138,88,145,31.2,195,8.1,1,Ward 21,2023-09-28,rishitrial1234@gmail.com
+Ananya Patil,29,Female,115,75,92,22.5,160,5.4,0,Ward 09,2023-11-05,ananya.patil@example.com
+Gita Patil,48,Female,154,92,112,29.8,205,6.8,0,Ward 04,2023-10-24,gita.patil@example.com
+Suresh Patil,59,Male,142,90,135,27.5,185,7.5,1,Ward 08,2023-10-15,suresh.patil@example.com
+Meena Rao,51,Female,130,85,105,26.2,175,6.2,0,Ward 12,2023-11-02,meena.rao@example.com
+Amit Singh,45,Male,148,94,118,30.5,215,7.8,1,Ward 08,2023-10-30,amit.singh@example.com
+Lata Hegde,67,Female,172,98,152,32.4,230,8.5,0,Ward 04,2023-09-15,lata.hegde@example.com
+Vijay Mallya,55,Male,135,85,122,25.8,190,6.9,0,Ward 15,2023-10-20,vijay.mallya@example.com
+Savitri Devi,42,Female,128,82,98,24.5,168,5.8,0,Ward 02,2023-11-10,savitri.devi@example.com
+Mohammad Rafi,70,Male,158,92,160,28.9,202,8.9,1,Ward 21,2023-10-05,mohammad.rafi@example.com
+Kavita Krishnan,35,Female,118,78,88,21.4,155,5.1,0,Ward 12,2023-10-18,kavita.krishnan@example.com
+Rahul Dravid,48,Male,125,80,102,24.2,172,5.9,0,Ward 01,2023-11-12,rahul.dravid@example.com
+Priyanka Chopra,38,Female,112,72,85,19.8,150,4.9,0,Ward 07,2023-11-15,priyanka.chopra@example.com
+Nitin Gadkari,65,Male,160,105,140,33.2,245,8.2,1,Ward 04,2023-09-30,nitin.gadkari@example.com
