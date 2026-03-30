@@ -5,37 +5,27 @@
  * Used by: ProtectedRoute, Navbar, all pages needing user info
  */
 import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../services/supabaseClient'
 
 const AuthContext = createContext(null)
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState({ id: '1', email: 'dr.julian@hospital.com', user_metadata: { full_name: 'Dr. Julian' } })
+  const [loading, setLoading] = useState(false)
 
+  // Mocking auth behavior
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-    })
-
-    return () => subscription.unsubscribe()
+    // Initial load: user already set to mock
+    setLoading(false)
   }, [])
 
   const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) throw error
-    return data
+    // Basic mock sign in
+    setUser({ id: '1', email, user_metadata: { full_name: 'Dr. Julian' } })
+    return { user: { id: '1' } }
   }
 
   const signOut = async () => {
-    await supabase.auth.signOut()
+    setUser(null)
   }
 
   return (
