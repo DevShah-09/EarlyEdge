@@ -1,0 +1,11 @@
+patient_id,name,age,gender,weight_kg,height_cm,bmi,systolic_bp,diastolic_bp,blood_glucose_fasting,hba1c,cholesterol_total,smoking_status,physical_activity,family_history_diabetes,family_history_hypertension,family_history_cvd,income_level,food_security,ward,last_visit_date,asha_worker_id
+P001,Raju Kumar,52,M,88,168,31.2,145,92,138,7.2,215,2,0,1,0,0,Low,0,Ward A,2025-03-15,
+P002,Priya Devi,45,F,72,158,28.8,128,84,105,6.1,195,2,0,0,1,1,Medium,1,Ward B,2025-03-10,ASHA001
+P003,Arjun Rao,60,M,79,165,29.0,155,96,120,6.8,230,1,0,1,1,0,Low,0,Ward A,2025-03-18,
+P004,Meera Singh,38,F,85,160,33.2,118,78,162,7.8,178,0,0,1,0,0,Medium,1,Ward C,2025-03-20,
+P005,Suresh Patel,55,M,92,170,31.8,138,88,110,5.9,225,1,1,0,1,1,High,1,Ward B,2025-03-12,ASHA001
+P006,Lakshmi Nair,48,F,65,155,27.1,122,80,98,5.5,185,0,2,0,0,0,Medium,1,Ward D,2025-03-22,
+P007,Mohammed Ali,63,M,75,162,28.6,162,98,145,8.1,245,2,0,1,1,1,Low,0,Ward A,2025-03-08,
+P008,Kavitha Reddy,41,F,58,152,25.1,115,75,88,5.2,172,0,1,0,0,0,High,1,Ward C,2025-03-25,
+P009,Rajesh Sharma,50,M,95,175,31.0,142,90,125,6.5,210,1,0,1,0,1,Medium,1,Ward B,2025-03-14,
+P010,Sunita Gupta,44,F,70,160,27.3,130,85,112,6.0,190,0,0,1,1,0,Low,0,Ward D,2025-03-19,
