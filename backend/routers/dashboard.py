@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from schemas.dashboard import DashboardResponse
 from database import get_supabase
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import pandas as pd
 
 router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
@@ -31,6 +31,8 @@ async def get_dashboard():
         # 2. KPI Cards
         total_patients = len(df)
         high_risk_count = len(df[df['risk_tier'] == 'High'])
+        medium_risk_count = len(df[df['risk_tier'] == 'Medium'])
+        low_risk_count = len(df[df['risk_tier'] == 'Low'])
         
         # Pending ASHA tasks
         tasks_res = db.table("asha_tasks").select("task_id", count="exact").eq("status", "Pending").execute()
@@ -40,44 +42,65 @@ async def get_dashboard():
         camps_res = db.table("screening_camps").select("camp_id", count="exact").gte("start_date", datetime.now().date().isoformat()).execute()
         upcoming_camps = camps_res.count if camps_res.count is not None else 0
 
+        # New this week
+        one_week_ago = datetime.now(timezone.utc) - timedelta(days=7)
+        new_this_week = len(df[df['created_at'] >= one_week_ago])
+
         # 3. Risk Distribution
         distribution = {
             "high": high_risk_count,
-            "medium": len(df[df['risk_tier'] == 'Medium']),
-            "low": len(df[df['risk_tier'] == 'Low']),
-            "high_pct": round((high_risk_count / total_patients) * 100, 1),
-            "medium_pct": round((len(df[df['risk_tier'] == 'Medium']) / total_patients) * 100, 1),
-            "low_pct": round((len(df[df['risk_tier'] == 'Low']) / total_patients) * 100, 1),
+            "medium": medium_risk_count,
+            "low": low_risk_count,
+            "high_pct": round((high_risk_count / total_patients) * 100, 1) if total_patients > 0 else 0,
+            "medium_pct": round((medium_risk_count / total_patients) * 100, 1) if total_patients > 0 else 0,
+            "low_pct": round((low_risk_count / total_patients) * 100, 1) if total_patients > 0 else 0,
         }
 
-        # 4. Ward Summary
+        # 4. Condition Breakdown
+        condition_breakdown = []
+        for cond, label in [("diabetes", "Diabetes"), ("hypertension", "Hypertension"), ("cvd", "CVD")]:
+            col = f"{cond}_risk"
+            condition_breakdown.append({
+                "condition": label,
+                "high_risk": len(df[df[col] >= 70]),
+                "medium_risk": len(df[(df[col] >= 40) & (df[col] < 70)]),
+                "low_risk": len(df[df[col] < 40])
+            })
+
+        # 5. Ward Summary
         ward_summary = []
         for ward_name, ward_df in df.groupby('ward'):
             h_count = len(ward_df[ward_df['risk_tier'] == 'High'])
             ward_summary.append({
                 "ward": ward_name,
                 "total_patients": len(ward_df),
-                "high_risk_count": h_count,
+                "high_risk": h_count,
                 "recommended_camps": (h_count // 15) + (1 if h_count % 15 > 0 else 0)
             })
 
-        # 5. Monthly Trend (Mocked for now based on 'created_at' for last 6 months)
-        # In real usage, this would be computed by month-over-month snapshots.
+        # 6. Monthly Trend
         monthly_trend = _calculate_monthly_trend(df)
 
         return {
             "kpis": {
                 "total_patients": total_patients,
                 "high_risk_count": high_risk_count,
-                "pending_tasks": pending_tasks,
-                "upcoming_camps": upcoming_camps
+                "high_risk_percent": distribution["high_pct"],
+                "medium_risk_count": medium_risk_count,
+                "low_risk_count": low_risk_count,
+                "pending_asha_tasks": pending_tasks,
+                "upcoming_camps": upcoming_camps,
+                "new_this_week": new_this_week
             },
             "risk_distribution": distribution,
+            "condition_breakdown": condition_breakdown,
             "monthly_trend": monthly_trend,
-            "ward_summary": sorted(ward_summary, key=lambda x: x["high_risk_count"], reverse=True)
+            "ward_summary": sorted(ward_summary, key=lambda x: x["high_risk"], reverse=True)
         }
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print(f"Dashboard error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 

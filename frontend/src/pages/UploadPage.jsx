@@ -22,7 +22,7 @@ const UploadPage = () => {
             const hList = data.history || [];
             setHistory(hList);
             const total = hList.reduce((acc, curr) => {
-                return curr.status === 'SUCCESS' ? acc + (curr.records_processed || 0) : acc;
+                return curr.status === 'SUCCESS' ? acc + (curr.processed || 0) : acc;
             }, 0);
             setTotalProcessed(total);
         } catch (err) {
@@ -203,7 +203,7 @@ const UploadPage = () => {
                                     <td colSpan="5" className="py-16 text-center text-slate-400 font-bold italic">No cloud ingestion history found.</td>
                                 </tr>
                             ) : history.map((batch) => (
-                                <tr key={batch.id} className="group hover:bg-slate-50/50 transition-all">
+                                <tr key={batch.batch_id} className="group hover:bg-slate-50/50 transition-all">
                                     <td className="py-9 pl-6">
                                         <div className="flex items-center gap-5">
                                             <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
@@ -216,7 +216,7 @@ const UploadPage = () => {
                                         {new Date(batch.uploaded_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                     </td>
                                     <td className="py-9 text-center font-black text-slate-800 text-sm">
-                                        {batch.records_processed?.toLocaleString() || 0}
+                                        {batch.processed?.toLocaleString() || 0}
                                     </td>
                                     <td className="py-9 text-center">
                                         <span className={`px-5 py-2 rounded-full text-[9px] font-black tracking-[0.2em] shadow-sm uppercase ${

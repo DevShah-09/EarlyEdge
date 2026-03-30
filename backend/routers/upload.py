@@ -22,6 +22,17 @@ def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = [c.strip().lower().replace(" ", "_").replace("-", "_") for c in df.columns]
     return df
 
+
+def _generate_patient_id(row: pd.Series) -> str:
+    """Generates a deterministic ID from name and age if patient_id is missing."""
+    import hashlib
+    name = str(row.get("name", "anon")).lower().replace(" ", "")
+    age = str(int(row.get("age", 40)))
+    combined = f"{name}-{age}"
+    # Adding a short hash of the name/age for extra stability
+    h = hashlib.md5(combined.encode()).hexdigest()[:6]
+    return f"P-{name}-{h}"
+
 # ── main upload endpoint ─────────────────────────────────────────────────────
 
 @router.post("", response_model=UploadResponse)
@@ -80,7 +91,12 @@ async def upload_dataset(file: UploadFile = File(...)):
         for idx, risk in enumerate(risk_results):
             try:
                 row = df_processed.iloc[idx]
-                pid = str(risk["patient_id"])
+                
+                # Use provided patient_id or generate one
+                if "patient_id" in row and pd.notna(row["patient_id"]):
+                    pid = str(row["patient_id"])
+                else:
+                    pid = _generate_patient_id(row)
 
                 # Risk scores
                 d_risk = risk["diabetes_risk"]
@@ -176,15 +192,7 @@ async def upload_dataset(file: UploadFile = File(...)):
                 failed += 1
                 failed_rows.append(idx + 2)
 
-        # 6. Bulk Upsert Patients
-        if patient_records:
-            supabase.table("patients").upsert(patient_records, on_conflict="patient_id").execute()
-        
-        # 7. Bulk Insert History
-        if history_records:
-            supabase.table("patient_risk_history").insert(history_records).execute()
-
-        # 8. Log the upload batch
+        # 6. Log the upload batch (First, to satisfy patients FK)
         batch_record = {
             "batch_id": batch_id,
             "filename": filename,
@@ -194,9 +202,18 @@ async def upload_dataset(file: UploadFile = File(...)):
             "high_risk_count": high,
             "medium_risk_count": medium,
             "low_risk_count": low,
+            "status": "SUCCESS",
             "uploaded_at": datetime.now(timezone.utc).isoformat()
         }
         supabase.table("upload_batches").insert(batch_record).execute()
+
+        # 7. Bulk Upsert Patients
+        if patient_records:
+            supabase.table("patients").upsert(patient_records, on_conflict="patient_id").execute()
+        
+        # 8. Bulk Insert History
+        if history_records:
+            supabase.table("patient_risk_history").insert(history_records).execute()
 
         return UploadResponse(
             batch_id=batch_id,

@@ -61,7 +61,9 @@ def predict_risk_scores(df: pd.DataFrame) -> List[Dict]:
             condition_risk = _rule_based_fallback(df, condition) * 100
 
         if not results:
-            results = [{"patient_id": str(pid)} for pid in df["patient_id"]]
+            # If patient_id is not in df, we use indices as keys for the caller to map back
+            pids = df["patient_id"] if "patient_id" in df.columns else range(len(df))
+            results = [{"patient_id": str(pid)} for pid in pids]
 
         for i, score in enumerate(condition_risk):
             results[i][f"{condition}_risk"] = round(float(score), 1)

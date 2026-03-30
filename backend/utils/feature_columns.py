@@ -31,12 +31,12 @@ ALL_FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES
 
 # Required columns in the uploaded CSV (raw)
 REQUIRED_CSV_COLUMNS = [
-    "patient_id", "name", "age", "gender",
+    "name", "age", "gender",
 ]
 
 # Optional but important columns
 OPTIONAL_CSV_COLUMNS = [
-    "weight_kg", "height_cm", "bmi",
+    "patient_id", "weight_kg", "height_cm", "bmi",
     "systolic_bp", "diastolic_bp",
     "blood_glucose_fasting", "hba1c", "cholesterol_total",
     "smoking_status", "physical_activity",
