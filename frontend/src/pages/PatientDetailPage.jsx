@@ -258,10 +258,13 @@ const PatientDetailPage = () => {
                                 <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-black text-xs flex items-center justify-center flex-shrink-0 mt-1">{idx + 1}</div>
                                 <div className="space-y-2">
                                     <h4 className="text-sm font-black text-slate-800">{step.title}</h4>
-                                    <p className="text-xs font-bold text-slate-500 leading-relaxed">{step.description}</p>
+                                    <p className="text-xs font-bold text-slate-500 leading-relaxed">{step.goal}</p>
                                     <div className="flex flex-wrap gap-2 pt-2">
-                                        {[...(step.clinical_targets || []), ...(step.sdoh_factors || [])].map((tag, tIdx) => (
-                                            <span key={tIdx} className="px-3 py-1 bg-slate-50 text-slate-500 rounded-md text-[9px] font-black uppercase tracking-widest">{tag}</span>
+                                        {step.actions?.map((action, aIdx) => (
+                                            <div key={aIdx} className="flex items-center gap-2 w-full text-xs font-medium text-slate-600 bg-slate-50 p-2 rounded-lg">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                                                {action}
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
