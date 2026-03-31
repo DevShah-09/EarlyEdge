@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query, HTTPException
 from typing import Optional, List
 import pandas as pd
+from datetime import datetime, timezone
 
 from backend.database import get_supabase
 from backend.services.email_service import send_care_plan_email
