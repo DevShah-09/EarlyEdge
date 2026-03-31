@@ -1,0 +1,8 @@
+{
+  "email": "test_verify_2@hospital.com",
+  "password": "test1234password",
+  "full_name": "Dr. Test Verify",
+  "hospital_name": "Verify Hospital",
+  "hospital_type": "PHC",
+  "designation": "Medical Officer"
+}

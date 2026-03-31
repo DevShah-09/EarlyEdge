@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
   const location = useLocation();
+  const { user } = useAuth();
+  const fullName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const designation = user?.user_metadata?.designation || 'Medical Officer';
+  const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: (
@@ -77,12 +82,12 @@ const Sidebar = () => {
       {/* Bottom Profile */}
       <div className="p-4 border-t border-gray-50">
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50/50">
-          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
-            <img src="https://ui-avatars.com/api/?name=Julian&background=0284c7&color=fff" alt="Dr. Julian" />
+          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
+            <span className="text-white font-black text-xs">{initials}</span>
           </div>
           <div className="flex flex-col">
-            <p className="text-sm font-bold text-gray-800">Dr. Julian</p>
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Medical Officer</p>
+            <p className="text-sm font-bold text-gray-800">{fullName}</p>
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{designation}</p>
           </div>
         </div>
       </div>

@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import loginBackground from '../assets/login-bg.png'; // Using generated image
+import loginBackground from '../assets/login-bg.png';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('dr.julian@hospital.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     try {
       await signIn(email, password);
-      // Brief delay for transition effect
-      setTimeout(() => navigate('/dashboard'), 500);
+      setTimeout(() => navigate('/dashboard'), 300);
     } catch (err) {
-      alert('Login failed. Please check your credentials.');
+      console.error('Login error:', err);
+      setError(err.message || 'Invalid credentials. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +46,7 @@ const LoginPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <span className="text-2xl font-serif italic font-black text-white tracking-tight uppercase">The Clinical Atelier</span>
+            <span className="text-2xl font-serif italic font-black text-white tracking-tight uppercase">EarlyEdge</span>
           </div>
 
           <div className="space-y-6 animate-in slide-in-from-left duration-1000 delay-200">
@@ -52,7 +54,7 @@ const LoginPage = () => {
               Clinical Excellence <br/> <span className="text-blue-400">Simplified.</span>
             </h2>
             <p className="text-xl text-slate-300 max-w-lg leading-relaxed font-light">
-              Access the most advanced medical data analytics platform today. Manage patient screening, risk simulation, and ASHA tasks with one intuitive interface.
+              Access the most advanced NCD risk prediction platform for hospitals. Manage patient screening, risk simulation, and ASHA worker coordination — all in one place.
             </p>
             <div className="flex gap-4 pt-4">
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 flex-1 hover:bg-white/20 transition-all cursor-default">
@@ -87,9 +89,19 @@ const LoginPage = () => {
                         <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Precision NCD Risk Intelligence</p>
                     </div>
 
+          {/* Error Alert */}
+          {error && (
+            <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl text-sm font-bold flex items-center gap-3 animate-in slide-in-from-top duration-300">
+              <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+              <span>{error}</span>
+            </div>
+          )}
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-xs font-extra-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
+              <label className="text-xs font-extra-bold text-slate-500 uppercase tracking-widest ml-1">Hospital Email Address</label>
               <div className="relative group">
                 <span className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                   <svg className="w-5 h-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,10 +109,11 @@ const LoginPage = () => {
                   </svg>
                 </span>
                 <input 
+                  id="login-email"
                   type="email" 
                   required
                   className="w-full pl-14 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-[24px] font-bold text-sm focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
-                  placeholder="e.g. j.doe@hospital.com"
+                  placeholder="e.g. dr.smith@hospital.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -119,6 +132,7 @@ const LoginPage = () => {
                   </svg>
                 </span>
                 <input 
+                  id="login-password"
                   type="password" 
                   required
                   className="w-full pl-14 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-[24px] font-bold text-sm focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
@@ -137,11 +151,11 @@ const LoginPage = () => {
               {isLoading ? (
                 <div className="flex items-center gap-2">
                    <div className="w-5 h-5 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                   Processing...
+                   Authenticating...
                 </div>
               ) : (
                 <>
-                  <span>Sign In</span>
+                  <span>Sign In to Dashboard</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                 </>
               )}
@@ -150,7 +164,7 @@ const LoginPage = () => {
 
           <footer className="text-center space-y-4 pt-4">
              <div className="text-sm font-medium text-slate-400">
-               Don't have an account? <Link to="/signup" className="text-blue-600 font-bold hover:underline">Request Access</Link>
+               New hospital? <Link to="/signup" className="text-blue-600 font-bold hover:underline">Register Your Facility</Link>
              </div>
              
              <div className="flex items-center gap-2 justify-center py-4 opacity-40">
