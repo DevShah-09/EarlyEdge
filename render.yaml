@@ -18,7 +18,7 @@ services:
       # You must add SUPABASE_URL and SUPABASE_KEY in the Render dashboard
 
   # --- Frontend Service (Static Site) ---
-  - type: static
+  - type: web
     name: earlyedge-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
