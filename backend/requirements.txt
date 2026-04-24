@@ -5,6 +5,9 @@ numpy
 scikit-learn
 shap
 joblib
+xgboost
+lightgbm
+imbalanced-learn
 langchain
 langchain-community
 langchain-openai
