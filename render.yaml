@@ -29,7 +29,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://earlyedge-backend-bq6m.onrender.com/ # UPDATE THIS after first backend deploy
+        value: https://earlyedge-backend-bq6m.onrender.com/api # UPDATE THIS after first backend deploy
       - key: VITE_SUPABASE_URL
         sync: false # Add this value in the Render Dashboard
       - key: VITE_SUPABASE_ANON_KEY
