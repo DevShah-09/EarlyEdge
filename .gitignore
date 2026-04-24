@@ -50,7 +50,7 @@ frontend/.env
 .DS_Store
 Thumbs.db
 
-# ML Models
-ml/saved_models/
-*.joblib
-*.pkl
+# ML Models (Commented out to allow committing saved models to Render)
+# ml/saved_models/
+# *.joblib
+# *.pkl

@@ -1,0 +1,290 @@
+{
+  "diabetes": {
+    "status": "trained",
+    "best_model": "ensemble",
+    "best_accuracy": 0.831,
+    "best_recall": 0.7844,
+    "training_samples": 4192,
+    "test_samples": 1000,
+    "positive_rate": 0.524,
+    "models": {
+      "lr": {
+        "recall": 0.7882,
+        "precision": 0.8586,
+        "f1": 0.8219,
+        "accuracy": 0.821,
+        "roc_auc": 0.891,
+        "confusion_matrix": [
+          [
+            408,
+            68
+          ],
+          [
+            111,
+            413
+          ]
+        ]
+      },
+      "rf": {
+        "recall": 0.7672,
+        "precision": 0.8835,
+        "f1": 0.8212,
+        "accuracy": 0.825,
+        "roc_auc": 0.9067,
+        "confusion_matrix": [
+          [
+            423,
+            53
+          ],
+          [
+            122,
+            402
+          ]
+        ]
+      },
+      "xgb": {
+        "recall": 0.7824,
+        "precision": 0.8723,
+        "f1": 0.8249,
+        "accuracy": 0.826,
+        "roc_auc": 0.9057,
+        "confusion_matrix": [
+          [
+            416,
+            60
+          ],
+          [
+            114,
+            410
+          ]
+        ]
+      },
+      "lgbm": {
+        "recall": 0.7977,
+        "precision": 0.8548,
+        "f1": 0.8253,
+        "accuracy": 0.823,
+        "roc_auc": 0.9057,
+        "confusion_matrix": [
+          [
+            405,
+            71
+          ],
+          [
+            106,
+            418
+          ]
+        ]
+      },
+      "ensemble": {
+        "recall": 0.7844,
+        "precision": 0.8801,
+        "f1": 0.8295,
+        "accuracy": 0.831,
+        "roc_auc": 0.9069,
+        "confusion_matrix": [
+          [
+            420,
+            56
+          ],
+          [
+            113,
+            411
+          ]
+        ]
+      }
+    }
+  },
+  "hypertension": {
+    "status": "trained",
+    "best_model": "rf",
+    "best_accuracy": 0.828,
+    "best_recall": 0.8143,
+    "training_samples": 4984,
+    "test_samples": 1000,
+    "positive_rate": 0.377,
+    "models": {
+      "lr": {
+        "recall": 0.8064,
+        "precision": 0.7451,
+        "f1": 0.7745,
+        "accuracy": 0.823,
+        "roc_auc": 0.8722,
+        "confusion_matrix": [
+          [
+            519,
+            104
+          ],
+          [
+            73,
+            304
+          ]
+        ]
+      },
+      "rf": {
+        "recall": 0.8143,
+        "precision": 0.7506,
+        "f1": 0.7812,
+        "accuracy": 0.828,
+        "roc_auc": 0.8897,
+        "confusion_matrix": [
+          [
+            521,
+            102
+          ],
+          [
+            70,
+            307
+          ]
+        ]
+      },
+      "xgb": {
+        "recall": 0.8223,
+        "precision": 0.7399,
+        "f1": 0.7789,
+        "accuracy": 0.824,
+        "roc_auc": 0.8849,
+        "confusion_matrix": [
+          [
+            514,
+            109
+          ],
+          [
+            67,
+            310
+          ]
+        ]
+      },
+      "lgbm": {
+        "recall": 0.8143,
+        "precision": 0.731,
+        "f1": 0.7704,
+        "accuracy": 0.817,
+        "roc_auc": 0.8849,
+        "confusion_matrix": [
+          [
+            510,
+            113
+          ],
+          [
+            70,
+            307
+          ]
+        ]
+      },
+      "ensemble": {
+        "recall": 0.8196,
+        "precision": 0.7392,
+        "f1": 0.7774,
+        "accuracy": 0.823,
+        "roc_auc": 0.8884,
+        "confusion_matrix": [
+          [
+            514,
+            109
+          ],
+          [
+            68,
+            309
+          ]
+        ]
+      }
+    }
+  },
+  "cvd": {
+    "status": "trained",
+    "best_model": "ensemble",
+    "best_accuracy": 0.801,
+    "best_recall": 0.6982,
+    "training_samples": 5722,
+    "test_samples": 1000,
+    "positive_rate": 0.285,
+    "models": {
+      "lr": {
+        "recall": 0.7228,
+        "precision": 0.577,
+        "f1": 0.6417,
+        "accuracy": 0.77,
+        "roc_auc": 0.8361,
+        "confusion_matrix": [
+          [
+            564,
+            151
+          ],
+          [
+            79,
+            206
+          ]
+        ]
+      },
+      "rf": {
+        "recall": 0.6982,
+        "precision": 0.618,
+        "f1": 0.6557,
+        "accuracy": 0.791,
+        "roc_auc": 0.8539,
+        "confusion_matrix": [
+          [
+            592,
+            123
+          ],
+          [
+            86,
+            199
+          ]
+        ]
+      },
+      "xgb": {
+        "recall": 0.6842,
+        "precision": 0.625,
+        "f1": 0.6533,
+        "accuracy": 0.793,
+        "roc_auc": 0.8509,
+        "confusion_matrix": [
+          [
+            598,
+            117
+          ],
+          [
+            90,
+            195
+          ]
+        ]
+      },
+      "lgbm": {
+        "recall": 0.7088,
+        "precision": 0.6312,
+        "f1": 0.6678,
+        "accuracy": 0.799,
+        "roc_auc": 0.8531,
+        "confusion_matrix": [
+          [
+            597,
+            118
+          ],
+          [
+            83,
+            202
+          ]
+        ]
+      },
+      "ensemble": {
+        "recall": 0.6982,
+        "precision": 0.6378,
+        "f1": 0.6667,
+        "accuracy": 0.801,
+        "roc_auc": 0.856,
+        "confusion_matrix": [
+          [
+            602,
+            113
+          ],
+          [
+            86,
+            199
+          ]
+        ]
+      }
+    }
+  }
+}

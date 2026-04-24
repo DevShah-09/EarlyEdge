@@ -1,12 +1,9 @@
 services:
   # --- Backend Service (FastAPI) ---
   - type: web
-    name: rambharose-backend
+    name: earlyedge-backend
     env: python
-    buildCommand: |
-      pip install -r backend/requirements.txt
-      python ml/generate_patients.py
-      python ml/train.py --csv large_patient_dataset_5000.csv --force
+    buildCommand: pip install -r backend/requirements.txt
     startCommand: python run_api.py
     plan: free # Change to starter if you need more RAM for ML training
     envVars:
@@ -22,10 +19,10 @@ services:
 
   # --- Frontend Service (Static Site) ---
   - type: static
-    name: rambharose-frontend
+    name: earlyedge-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
-        value: https://rambharose-backend.onrender.com/api # UPDATE THIS after first backend deploy
+        value: https://earlyedge-backend.onrender.com/api # UPDATE THIS after first backend deploy
