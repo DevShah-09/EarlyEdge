@@ -130,6 +130,37 @@ const DashboardPage = () => {
         ],
     };
 
+    const handleExport = () => {
+        if (!dashboardData || !kpis) return;
+        
+        // Prepare CSV Content
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Clinic Performance Report\n";
+        csvContent += `Generated On,${new Date().toLocaleDateString()}\n`;
+        csvContent += `New Patients This Week,${kpis.new_this_week || 0}\n\n`;
+        
+        csvContent += "--- KPIs ---\n";
+        csvContent += `Total Patients,${kpis.total_patients || 0}\n`;
+        csvContent += `High Risk Count,${kpis.high_risk_count || 0}\n`;
+        csvContent += `High Risk %,${kpis.high_risk_percent || 0}%\n`;
+        csvContent += `Pending Tasks,${kpis.pending_asha_tasks || 0}\n\n`;
+        
+        csvContent += "--- ML Engine Metrics ---\n";
+        csvContent += "Condition,Best Model,Accuracy,Recall\n";
+        dashboardData.ml_metrics?.forEach(m => {
+            csvContent += `${m.condition},${m.best_model},${(m.accuracy*100).toFixed(1)}%,${(m.recall*100).toFixed(1)}%\n`;
+        });
+
+        // Trigger Download
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `clinic_report_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="space-y-8 animate-in fade-in duration-700 font-['Outfit'] pr-4">
             {/* Page Header */}
@@ -140,7 +171,10 @@ const DashboardPage = () => {
                     <p className="text-sm font-medium text-slate-500">Real-time clinical performance and patient risk metrics.</p>
                 </div>
                 <div className="flex gap-3">
-                    <button className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition-all shadow-sm">
+                    <button 
+                        onClick={handleExport}
+                        className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition-all shadow-sm"
+                    >
                         Export Report
                     </button>
                     <button onClick={() => navigate('/upload')} className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center gap-2">
