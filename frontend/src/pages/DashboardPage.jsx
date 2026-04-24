@@ -232,6 +232,47 @@ const DashboardPage = () => {
                 </div>
             </div>
 
+            {/* ML Model Performance Section */}
+            <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm space-y-6">
+                <div className="flex justify-between items-center px-2">
+                    <div className="space-y-1">
+                        <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">ML Engine Performance</h2>
+                        <p className="text-xs text-slate-400 font-medium">Real-time tracking of predictive accuracy and sensitivity (Recall)</p>
+                    </div>
+                    <div className="px-4 py-2 bg-blue-50 rounded-xl text-[10px] font-black text-blue-600 uppercase tracking-widest">
+                        Ensemble Optimized
+                    </div>
+                </div>
+                <div className="grid grid-cols-3 gap-6">
+                    {(dashboardData.ml_metrics || []).map((m) => (
+                        <div key={m.condition} className="p-5 bg-slate-50/50 rounded-[32px] border border-slate-100/50 space-y-4 hover:bg-white hover:shadow-xl hover:border-blue-100 transition-all group">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-500 transition-colors">{m.condition}</span>
+                                <span className="text-[9px] font-black text-blue-600 uppercase tracking-widest bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-50">
+                                    {m.best_model === 'ensemble' ? 'Voting Ensemble' : m.best_model.toUpperCase()}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-end gap-2">
+                                <div className="space-y-1">
+                                    <p className="text-3xl font-black text-slate-800 tracking-tighter">{(m.accuracy * 100).toFixed(1)}%</p>
+                                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Model Accuracy</p>
+                                </div>
+                                <div className="text-right space-y-1">
+                                    <p className="text-xl font-black text-slate-400 tracking-tighter">{(m.recall * 100).toFixed(1)}%</p>
+                                    <p className="text-[8px] font-black text-slate-300 uppercase tracking-widest leading-none">Sensitivity<br/>(Recall)</p>
+                                </div>
+                            </div>
+                            <div className="h-1.5 w-full bg-white rounded-full overflow-hidden shadow-inner">
+                                <div 
+                                    className="h-full bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)] transition-all duration-1000" 
+                                    style={{ width: `${m.accuracy * 100}%` }}
+                                ></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
             {/* Priority Interventions Table */}
             <div className="grid grid-cols-3 gap-8">
                 <div className="col-span-2 bg-white rounded-[40px] border border-slate-100 shadow-sm overflow-hidden p-8 flex flex-col h-full">

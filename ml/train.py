@@ -59,23 +59,24 @@ def main():
     df = pd.read_csv(args.csv)
     print(f"[train.py] Rows: {len(df)}  Columns: {list(df.columns)}")
 
-    print("[train.py] Starting training …")
+    print("[train.py] Starting training ...")
     report = train_models(df)
 
-    print("\n═══ Training Summary ═══")
+    print("\n--- Training Summary ---")
     for condition, info in report.items():
         if info.get("status") == "trained":
             print(
-                f"  {condition.upper():15s} → best={info['best_model']:5s}  "
+                f"  {condition.upper():15s} -> best={info['best_model']:5s}  "
                 f"recall={info['best_recall']:.3f}  "
+                f"acc={info['models'].get(info['best_model'], {}).get('accuracy', 'n/a')}  "
                 f"auc={info['models'].get(info['best_model'], {}).get('roc_auc', 'n/a')}"
             )
         else:
-            print(f"  {condition.upper():15s} → SKIPPED ({info.get('reason', '?')})")
+            print(f"  {condition.upper():15s} -> SKIPPED ({info.get('reason', '?')})")
 
     report_path = os.path.join(model_dir, "training_report.json")
-    print(f"\n[train.py] Full report → {report_path}")
-    print("[train.py] Done ✓")
+    print(f"\n[train.py] Full report -> {report_path}")
+    print("[train.py] Done")
 
 
 if __name__ == "__main__":

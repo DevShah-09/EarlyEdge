@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException
 from backend.schemas.dashboard import DashboardResponse
 from backend.database import get_supabase
 from datetime import datetime, timedelta, timezone
+import os
+import json
 import pandas as pd
 
 router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
@@ -81,6 +83,26 @@ async def get_dashboard():
         # 6. Monthly Trend
         monthly_trend = _calculate_monthly_trend(df)
 
+        # 7. ML Model Metrics
+        ml_metrics = []
+        try:
+            from backend.ml.trainer import MODEL_DIR
+            report_path = os.path.join(MODEL_DIR, "training_report.json")
+            if os.path.exists(report_path):
+                with open(report_path, "r") as f:
+                    report = json.load(f)
+                    for condition in ["diabetes", "hypertension", "cvd"]:
+                        if condition in report:
+                            c_data = report[condition]
+                            ml_metrics.append({
+                                "condition": condition.capitalize(),
+                                "best_model": c_data.get("best_model", "n/a"),
+                                "accuracy": c_data.get("best_accuracy", 0.0),
+                                "recall": c_data.get("best_recall", 0.0)
+                            })
+        except Exception as e:
+            print(f"Error loading ML metrics for dashboard: {e}")
+
         return {
             "kpis": {
                 "total_patients": total_patients,
@@ -95,7 +117,8 @@ async def get_dashboard():
             "risk_distribution": distribution,
             "condition_breakdown": condition_breakdown,
             "monthly_trend": monthly_trend,
-            "ward_summary": sorted(ward_summary, key=lambda x: x["high_risk"], reverse=True)
+            "ward_summary": sorted(ward_summary, key=lambda x: x["high_risk"], reverse=True),
+            "ml_metrics": ml_metrics
         }
 
     except Exception as e:

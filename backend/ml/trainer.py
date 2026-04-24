@@ -20,13 +20,13 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
-    recall_score, precision_score, f1_score,
+    recall_score, precision_score, f1_score, accuracy_score,
     roc_auc_score, confusion_matrix, classification_report
 )
 from typing import Dict
@@ -120,6 +120,21 @@ def _build_candidate_models(pos_weight: float):
             scale_pos_weight=pos_weight,
             random_state=42, verbosity=-1, n_jobs=-1
         )
+    
+    # Add Ensemble (Voting) if we have multiple strong candidates
+    if len(candidates) >= 2:
+        ensemble_list = []
+        for name in ["rf", "xgb", "lgbm"]:
+            if name in candidates:
+                ensemble_list.append((name, candidates[name]))
+        
+        if len(ensemble_list) >= 2:
+            candidates["ensemble"] = VotingClassifier(
+                estimators=ensemble_list,
+                voting="soft",
+                n_jobs=-1
+            )
+            
     return candidates
 
 
@@ -131,7 +146,17 @@ def train_models(df: pd.DataFrame) -> Dict[str, dict]:
     Returns: summary dict with per-condition metrics.
     """
     X = get_feature_matrix(df)
-    labels = _generate_synthetic_labels(df)
+    
+    # Use ground truth labels if they exist in the CSV, otherwise generate them
+    if "has_diabetes" in df.columns and "has_hypertension" in df.columns:
+        labels = pd.DataFrame({
+            "diabetes": df["has_diabetes"],
+            "hypertension": df["has_hypertension"],
+            "cvd": df["has_cvd"]
+        })
+    else:
+        labels = _generate_synthetic_labels(df)
+        
     report = {}
 
     for condition in CONDITIONS:
@@ -161,7 +186,7 @@ def train_models(df: pd.DataFrame) -> Dict[str, dict]:
 
         candidates = _build_candidate_models(pos_weight)
         condition_results = {}
-        best_name, best_model, best_recall = None, None, -1.0
+        best_name, best_model, best_accuracy = None, None, -1.0
 
         for name, model in candidates.items():
             try:
@@ -176,18 +201,19 @@ def train_models(df: pd.DataFrame) -> Dict[str, dict]:
                 rec  = round(float(recall_score(y_test, y_pred, zero_division=0)), 4)
                 prec = round(float(precision_score(y_test, y_pred, zero_division=0)), 4)
                 f1   = round(float(f1_score(y_test, y_pred, zero_division=0)), 4)
+                acc  = round(float(accuracy_score(y_test, y_pred)), 4)
                 cm   = confusion_matrix(y_test, y_pred).tolist()
 
                 condition_results[name] = {
-                    "recall": rec, "precision": prec, "f1": f1,
+                    "recall": rec, "precision": prec, "f1": f1, "accuracy": acc,
                     "roc_auc": auc, "confusion_matrix": cm
                 }
 
                 # Save every model so ensemble can still use LR + RF
                 joblib.dump(model, f"{MODEL_DIR}/{condition}_{name}.pkl")
 
-                if rec > best_recall:
-                    best_recall = rec
+                if acc > best_accuracy:
+                    best_accuracy = acc
                     best_name   = name
                     best_model  = model
 
@@ -201,20 +227,21 @@ def train_models(df: pd.DataFrame) -> Dict[str, dict]:
         report[condition] = {
             "status": "trained",
             "best_model": best_name,
-            "best_recall": best_recall,
+            "best_accuracy": best_accuracy,
+            "best_recall": condition_results[best_name].get("recall"),
             "training_samples": len(X_train_res),
             "test_samples": len(X_test),
             "positive_rate": round(float(y.mean()), 3),
             "models": condition_results,
         }
 
-        print(f"[ML] {condition.upper()} — best={best_name} (recall={best_recall:.3f})")
+        print(f"[ML] {condition.upper()} - best={best_name} (accuracy={best_accuracy:.3f})")
 
     # Write report
     report_path = f"{MODEL_DIR}/training_report.json"
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
-    print(f"[ML] Training report saved → {report_path}")
+    print(f"[ML] Training report saved -> {report_path}")
 
     return report
 

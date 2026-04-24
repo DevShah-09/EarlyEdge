@@ -52,7 +52,7 @@ def _get_risk_level(score: float) -> str:
 def _load_models():
     global _model_cache
     for condition in CONDITIONS:
-        for suffix in ["best", "lr", "rf", "xgb", "lgbm"]:
+        for suffix in ["ensemble", "best", "lr", "rf", "xgb", "lgbm"]:
             path = f"{MODEL_DIR}/{condition}_{suffix}.pkl"
             if os.path.exists(path):
                 _model_cache[f"{condition}_{suffix}"] = joblib.load(path)
@@ -81,7 +81,7 @@ def predict_risk_scores(df: pd.DataFrame) -> List[Dict]:
     for condition in CONDITIONS:
         # Prefer best model, fall back to RF, then LR
         model_key = None
-        for suffix in ["best", "rf", "lr"]:
+        for suffix in ["ensemble", "best", "rf", "lr"]:
             k = f"{condition}_{suffix}"
             if k in _model_cache:
                 model_key = k
@@ -146,7 +146,7 @@ def predict_single(patient: Dict[str, Any]) -> Dict[str, Any]:
     condition_scores = {}
     for condition in CONDITIONS:
         model_key = None
-        for suffix in ["best", "rf", "lr"]:
+        for suffix in ["ensemble", "best", "rf", "lr"]:
             k = f"{condition}_{suffix}"
             if k in _model_cache:
                 model_key = k

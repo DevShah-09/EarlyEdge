@@ -43,9 +43,17 @@ class WardRiskSummary(BaseModel):
     recommended_camps: int
 
 
+class MLModelMetric(BaseModel):
+    condition: str
+    best_model: str
+    accuracy: float
+    recall: float
+
+
 class DashboardResponse(BaseModel):
     kpis: KPICard
     risk_distribution: RiskDistribution
     condition_breakdown: List[ConditionBreakdown]
     monthly_trend: List[TrendPoint]
     ward_summary: List[WardRiskSummary]
+    ml_metrics: List[MLModelMetric] = []
