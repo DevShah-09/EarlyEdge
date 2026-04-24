@@ -35,7 +35,25 @@ app = FastAPI(
 )
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
-origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:5174,http://localhost:5175").split(",")
+# Allow localhost for development and wildcard or specific domain for production
+origins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+    "http://localhost:4173", # Vite preview port
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "http://127.0.0.1:5175",
+]
+
+# Add production URL if available in environment
+prod_url = os.getenv("FRONTEND_URL")
+if prod_url:
+    origins.append(prod_url)
+
+# If we want to be very loose for the demo/first deploy:
+if os.getenv("ALLOW_ALL_CORS", "false").lower() == "true":
+    origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,

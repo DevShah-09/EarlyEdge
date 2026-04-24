@@ -1,0 +1,31 @@
+services:
+  # --- Backend Service (FastAPI) ---
+  - type: web
+    name: rambharose-backend
+    env: python
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      python ml/generate_patients.py
+      python ml/train.py --csv large_patient_dataset_5000.csv --force
+    startCommand: python run_api.py
+    plan: free # Change to starter if you need more RAM for ML training
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: RENDER
+        value: "true"
+      - key: ALLOW_ALL_CORS
+        value: "true" # Simplified for first deployment
+      - key: MODEL_DIR
+        value: "./ml/saved_models"
+      # You must add SUPABASE_URL and SUPABASE_KEY in the Render dashboard
+
+  # --- Frontend Service (Static Site) ---
+  - type: static
+    name: rambharose-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://rambharose-backend.onrender.com/api # UPDATE THIS after first backend deploy
