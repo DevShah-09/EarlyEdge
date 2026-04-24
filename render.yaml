@@ -25,4 +25,4 @@ services:
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
-        value: https://earlyedge-backend.onrender.com/api # UPDATE THIS after first backend deploy
+        value: https://earlyedge-backend-bq6m.onrender.com/ # UPDATE THIS after first backend deploy
