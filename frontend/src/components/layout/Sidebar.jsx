@@ -1,13 +1,37 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
   const location = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   const fullName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
   const designation = user?.user_metadata?.designation || 'Medical Officer';
   const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/login');
+    } catch (err) {
+      console.error('Sign out error:', err);
+    }
+  };
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: (
@@ -84,17 +108,62 @@ const Sidebar = () => {
         })}
       </nav>
 
-      {/* Bottom Profile */}
-      <div className="p-4 border-t border-gray-50">
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50/50">
-          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
-            <span className="text-white font-black text-xs">{initials}</span>
+      {/* Bottom Profile Section */}
+      <div className="p-4 mb-10 border-t border-gray-50 relative" ref={dropdownRef}>
+        {dropdownOpen && (
+          <div className="absolute bottom-full left-4 mb-3 w-64 bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 py-3 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
+            <div className="px-6 py-4 border-b border-slate-50">
+              <p className="text-sm font-black text-slate-800 tracking-tight">{fullName}</p>
+              <p className="text-[10px] text-slate-400 font-bold truncate mt-0.5">{user?.email}</p>
+            </div>
+            <div className="p-2 space-y-1">
+              <button 
+                type="button"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  setDropdownOpen(false);
+                  navigate('/profile');
+                }}
+                className="w-full text-left px-4 py-3 text-xs font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-2xl transition-all flex items-center gap-4 group"
+              >
+                <div className="w-9 h-9 rounded-xl bg-slate-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors shrink-0">
+                  <svg className="w-5 h-5 text-slate-400 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                </div>
+                <span className="flex-1">Profile Settings</span>
+              </button>
+              <button 
+                type="button"
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  setDropdownOpen(false);
+                  handleSignOut(); 
+                }}
+                className="w-full text-left px-4 py-3 text-xs font-bold text-red-500 hover:bg-red-50 rounded-2xl transition-all flex items-center gap-4 group"
+              >
+                <div className="w-9 h-9 rounded-xl bg-red-50 group-hover:bg-red-100 flex items-center justify-center transition-colors shrink-0">
+                  <svg className="w-5 h-5 text-red-400 group-hover:text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                </div>
+                <span className="flex-1">Sign Out</span>
+              </button>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <p className="text-sm font-bold text-gray-800">{fullName}</p>
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{designation}</p>
+        )}
+
+        <button 
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+          className={`w-full flex items-center gap-4 px-4 py-4 rounded-[24px] transition-all duration-300 group ${dropdownOpen ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-slate-50/80 hover:bg-slate-100'}`}
+        >
+          <div className={`w-11 h-11 rounded-2xl flex items-center justify-center overflow-hidden border-2 transition-all duration-300 shrink-0 ${dropdownOpen ? 'bg-white border-blue-400' : 'bg-blue-600 border-white shadow-sm'}`}>
+            <span className={`font-black text-xs ${dropdownOpen ? 'text-blue-600' : 'text-white'}`}>{initials}</span>
           </div>
-        </div>
+          <div className="flex flex-col items-start overflow-hidden">
+            <p className={`text-sm font-black tracking-tight truncate w-full text-left transition-colors ${dropdownOpen ? 'text-white' : 'text-slate-800'}`}>{fullName}</p>
+            <p className={`text-[10px] font-bold uppercase tracking-widest truncate w-full text-left transition-colors ${dropdownOpen ? 'text-blue-100' : 'text-slate-400'}`}>{designation}</p>
+          </div>
+          <svg className={`w-4 h-4 ml-auto transition-all duration-300 ${dropdownOpen ? 'text-white rotate-180' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
       </div>
     </div>
   );

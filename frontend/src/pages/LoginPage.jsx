@@ -39,7 +39,7 @@ const LoginPage = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-slate-900/40" />
         
-        <div className="relative z-10 w-full p-16 flex flex-col justify-between">
+        <div className="relative z-10 w-full p-16 flex flex-col min-h-full">
           <div className="flex items-center gap-3 animate-in slide-in-from-top duration-700">
             <div className="bg-white/20 backdrop-blur-xl p-3 rounded-2xl border border-white/30 shadow-2xl">
                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,29 +49,18 @@ const LoginPage = () => {
             <span className="text-2xl font-serif italic font-black text-white tracking-tight uppercase">EarlyEdge</span>
           </div>
 
-          <div className="space-y-6 animate-in slide-in-from-left duration-1000 delay-200">
+          <div className="flex-1 flex flex-col justify-center items-center text-center space-y-6 animate-in fade-in zoom-in duration-1000 delay-200">
             <h2 className="text-6xl font-serif italic font-bold text-white leading-tight">
               Clinical Excellence <br/> <span className="text-blue-400">Simplified.</span>
             </h2>
             <p className="text-xl text-slate-300 max-w-lg leading-relaxed font-light">
               Access the most advanced NCD risk prediction platform for hospitals. Manage patient screening, risk simulation, and ASHA worker coordination — all in one place.
             </p>
-            <div className="flex gap-4 pt-4">
-              <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 flex-1 hover:bg-white/20 transition-all cursor-default">
-                <div className="text-3xl font-bold text-white mb-1">10k+</div>
-                <div className="text-slate-400 text-sm uppercase tracking-widest font-semibold">Patients Screened</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 flex-1 hover:bg-white/20 transition-all cursor-default text-right">
-                <div className="text-3xl font-bold text-white mb-1">98%</div>
-                <div className="text-slate-400 text-sm uppercase tracking-widest font-semibold">Accuracy Rate</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-slate-500 text-sm font-medium">
-             © 2026 RAM Bharose. All Rights Reserved.
           </div>
         </div>
+
+
+
       </div>
 
       {/* Auth Side (Right) */}

@@ -12,6 +12,7 @@ import RiskSimulatorPage from './pages/RiskSimulatorPage'
 import ASHATasksPage from './pages/ASHATasksPage'
 import ScreeningCampsPage from './pages/ScreeningCampsPage'
 import CalendarPage from './pages/CalendarPage'
+import ProfilePage from './pages/ProfilePage'
 import ProtectedRoute from './components/common/ProtectedRoute'
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/asha-tasks" element={<ASHATasksPage />} />
                 <Route path="/screening-camps" element={<ScreeningCampsPage />} />
                 <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
               </Route>
             </Route>
 

@@ -105,7 +105,7 @@ const SignUpPage = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-slate-900/40" />
         
-        <div className="relative z-10 w-full p-16 flex flex-col justify-between">
+        <div className="relative z-10 w-full p-16 flex flex-col min-h-full">
           <div className="flex items-center gap-3 animate-in slide-in-from-top duration-700">
             <div className="bg-white/20 backdrop-blur-xl p-3 rounded-2xl border border-white/30 shadow-2xl">
                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,7 +115,7 @@ const SignUpPage = () => {
             <span className="text-2xl font-serif italic font-black text-white tracking-tight uppercase">EarlyEdge</span>
           </div>
 
-          <div className="space-y-6 animate-in slide-in-from-left duration-1000 delay-200">
+          <div className="flex-1 flex flex-col justify-center items-center text-center space-y-6 animate-in fade-in zoom-in duration-1000 delay-200">
             <h2 className="text-5xl font-serif italic font-bold text-white leading-tight">
               Empowering <br/> Hospital <br/> <span className="text-blue-400">Intelligence.</span>
             </h2>
@@ -124,41 +124,34 @@ const SignUpPage = () => {
             </p>
 
             {/* Feature highlights */}
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+            <div className="space-y-6 pt-4 w-full max-w-sm">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 mb-1">
+                  <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                 </div>
-                <div>
-                  <p className="text-white font-bold text-sm">AI Risk Prediction</p>
-                  <p className="text-slate-400 text-xs">Diabetes, Hypertension & CVD screening</p>
-                </div>
+                <p className="text-white font-bold text-base">AI Risk Prediction</p>
+                <p className="text-slate-400 text-sm">Diabetes, Hypertension & CVD screening</p>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 mb-1">
+                  <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 </div>
-                <div>
-                  <p className="text-white font-bold text-sm">ASHA Worker Integration</p>
-                  <p className="text-slate-400 text-xs">Task assignment & community follow-up</p>
-                </div>
+                <p className="text-white font-bold text-base">ASHA Worker Integration</p>
+                <p className="text-slate-400 text-sm">Task assignment & community follow-up</p>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 mb-1">
+                  <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 </div>
-                <div>
-                  <p className="text-white font-bold text-sm">Explainable AI (XAI)</p>
-                  <p className="text-slate-400 text-xs">SHAP-driven reasoning for every decision</p>
-                </div>
+                <p className="text-white font-bold text-base">Explainable AI (XAI)</p>
+                <p className="text-slate-400 text-sm">SHAP-driven reasoning for every decision</p>
               </div>
             </div>
           </div>
-
-          <div className="text-slate-500 text-sm font-medium">
-             © 2026 RAM Bharose. All Rights Reserved.
-          </div>
         </div>
+
+
+
       </div>
 
       {/* Auth Side (Right) */}
@@ -194,7 +187,7 @@ const SignUpPage = () => {
                 <input 
                   id="signup-fullname"
                   name="fullName"
-                  type="text" 
+                  type="text"   
                   required
                   className="w-full px-5 py-3.5 bg-slate-50 border-2 border-transparent rounded-[20px] font-bold text-sm focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-100 transition-all outline-none"
                   placeholder="Dr. John Doe"
