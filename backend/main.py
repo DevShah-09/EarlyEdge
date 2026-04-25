@@ -44,12 +44,17 @@ origins = [
     "http://127.0.0.1:5173",
     "http://127.0.0.1:5174",
     "http://127.0.0.1:5175",
+    "https://earlyedge-frontend.onrender.com"
 ]
 
 # Add production URL if available in environment
 prod_url = os.getenv("FRONTEND_URL")
 if prod_url:
     origins.append(prod_url)
+
+cors_origins = os.getenv("CORS_ORIGINS")
+if cors_origins:
+    origins.extend([origin.strip() for origin in cors_origins.split(",")])
 
 # If we want to be very loose for the demo/first deploy:
 if os.getenv("ALLOW_ALL_CORS", "false").lower() == "true":
