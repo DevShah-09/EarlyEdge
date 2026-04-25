@@ -1,6 +1,100 @@
 # EarlyEdge 🏥
 
-EarlyEdge is a specialized AI-powered risk prediction and clinical intervention dashboard for NCD (Non-Communicable Diseases) management in rural settings.
+## Overview
+EarlyEdge is an AI-powered hospital intelligence platform designed for early detection and management of Non-Communicable Diseases (NCDs) such as Diabetes, Hypertension, and Cardiovascular Disease (CVD).
+
+The platform enables hospitals to upload patient records, predict disease risks, automate care planning, optimize staff allocation, and identify areas requiring preventive outreach programs.
+
+Built for modern healthcare systems, EarlyEdge combines Machine Learning, LangChain AI, clinical dashboards, and workflow automation to improve decision-making and patient outcomes.
+
+## Live Demo
+🔗 [https://earlyedge-frontend.onrender.com/signup](https://earlyedge-frontend.onrender.com/signup)
+
+## Key Features
+### 1. Patient Data Upload & Management
+- Hospitals can upload patient records through forms or datasets.
+- Centralized and structured patient database.
+- Real-time access to records and analytics.
+
+### 2. AI Risk Prediction Engine
+Predicts disease probability for:
+- **Diabetes** – 83.1% Accuracy
+- **Hypertension** – 82.8% Accuracy
+- **Cardiovascular Disease (CVD)** – 80.1% Accuracy
+
+Models trained and evaluated:
+- Logistic Regression
+- Random Forest
+- XGBoost
+- LightGBM
+- Voting Ensemble
+
+Automatically selects best-performing models.
+
+### 3. Personalized Care Plan Generator
+Powered by LangChain AI:
+- Auto-generates patient-specific care plans.
+- Includes diet, activity, and follow-up suggestions.
+- Requires doctor approval before sending.
+- Approved plans can be emailed directly to patients.
+
+### 4. Risk Simulator
+Allows doctors to simulate how parameter changes affect risk:
+- Weight reduction
+- Improved BP levels
+- Sugar control
+- Smoking cessation
+- Lifestyle changes
+
+### 5. Smart Nurse Assignment
+- Prioritizes high-risk patients.
+- Assigns nurses based on urgency/workload.
+- Improves follow-up efficiency.
+
+### 6. Screening Camp Planner
+- Detects high-risk geographical clusters.
+- Suggests medical screening camps.
+- Estimates staff/resources required.
+- Helps hospitals plan preventive outreach.
+
+### 7. Interactive Dashboard
+- Patient statistics
+- Disease trends
+- Risk segmentation
+- Resource planning
+- Operational KPIs
+
+## Tech Stack
+- **Frontend**: React, Vite, Tailwind CSS, Chart.js
+- **Backend**: Python, FastAPI
+- **Database**: Supabase
+- **AI / ML**: Scikit-learn, XGBoost, LightGBM, LangChain, Ensemble Models
+
+## System Workflow
+1. Hospital uploads patient records.
+2. Data stored securely in database.
+3. ML models predict disease risks.
+4. Dashboard displays insights.
+5. LangChain generates care plans.
+6. Doctors approve recommendations.
+7. Nurses / camps assigned for intervention.
+
+## Use Cases
+- Hospitals managing chronic disease populations
+- Rural healthcare centers
+- Preventive healthcare initiatives
+- Outreach screening drives
+- Risk-based patient prioritization
+
+## Business Impact
+- Early disease detection
+- Better patient monitoring
+- Reduced manual workload
+- Smarter resource allocation
+- Improved outreach planning
+- Increased operational efficiency
+
+---
 
 ## 🚀 Quick Start Guide for Teammates
 
@@ -13,8 +107,8 @@ Follow these steps to get the project working on your local machine:
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/singhviyashvi01/25_RAMBharose.git
-cd 25_RAMBharose
+git clone https://github.com/DevShah-09/EarlyEdge.git
+cd EarlyEdge
 ```
 
 ### 3. Backend Setup (Virtual Environment)
