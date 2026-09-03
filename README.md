@@ -3,6 +3,10 @@
 ## Overview
 EarlyEdge is an AI-powered hospital intelligence platform designed for early detection and management of Non-Communicable Diseases (NCDs) such as Diabetes, Hypertension, and Cardiovascular Disease (CVD).
 
+## Engineering Documentation
+
+The implementation-level documentation—including one file per feature, model choices, formulas, data flow, API behavior, database design, deployment, security, and known gaps—is indexed in [`docs/README.md`](docs/README.md).
+
 The platform enables hospitals to upload patient records, predict disease risks, automate care planning, optimize staff allocation, and identify areas requiring preventive outreach programs.
 
 Built for modern healthcare systems, EarlyEdge combines Machine Learning, LangChain AI, clinical dashboards, and workflow automation to improve decision-making and patient outcomes.
